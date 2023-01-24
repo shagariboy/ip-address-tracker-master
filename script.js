@@ -1,69 +1,83 @@
-const getdata = () => {
-  var x = document.getElementById("myip").value;
+// Target input and button element
+const user_input = document.getElementById('user-input');
+const button = document.getElementById('button');
 
-  console.log(x);
+// IP information displays
+const ip_address_display = document.getElementById('ip-address');
+const location_display = document.getElementById('location');
+const timezone_display = document.getElementById('timezone');
+const isp_display = document.getElementById('isp');
 
-  fetch(
-    "http://ip-api.com/json/" +
-      x +
-      "?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,offset,isp,org,as,query"
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((responseData) => {
-      console.log(responseData);
 
-      console.log(responseData.offset);
+/* ============================================= */
 
-      d = Number(responseData.offset);
-      var h = Math.floor(d / 3600);
-      var m = Math.floor((d % 3600) / 60);
-      var s = Math.floor((d % 3600) % 60);
+let map = null;
 
-      document.querySelector("#ip").innerHTML = responseData.query;
-      document.querySelector("#loc").innerHTML = responseData.city;
-      document.querySelector("#tme").innerHTML = h + ":" + m;
-      document.querySelector("#isp").innerHTML = responseData.isp;
+getAndDisplayInfo();
 
-      var map = L.map("map").setView([responseData.lat, responseData.lon], 13);
+// Added event listener to button 
+button.addEventListener("click", (e) => {
+  getAndDisplayInfo();
+});
 
-      var container = L.DomUtil.get("map");
-      if (container != null) {
-        container._leaflet_id = null;
-      }
+/* ============================================= */
 
-      L.tileLayer(
-        "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" +
-          "pk.eyJ1Ijoibm5hbWRpZXplaCIsImEiOiJjbGQ5OWpyYXMwMGk2M290OWZjOHByZjk0In0.WkMAxvHkc-zGLhcKlbfJOw",
-        {
-          attribution:
-            'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: "mapbox/streets-v11",
-          tileSize: 512,
-          zoomOffset: -1,
-          accessToken:
-            "pk.eyJ1Ijoibm5hbWRpZXplaCIsImEiOiJjbGQ5OWpyYXMwMGk2M290OWZjOHByZjk0In0.WkMAxvHkc-zGLhcKlbfJOw",
-        }
-      ).addTo(map);
 
-      var greenIcon = new L.Icon({
-        iconUrl: "./images/icon-location.svg",
-        iconSize: [40, 50],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41],
-      });
-      map.invalidateSize();
+/* ==≈===== BEGINNING OF ABSTRACTION =========== */
 
-      var marker = L.marker([responseData.lat, responseData.lon], {
-        icon: greenIcon,
-      }).addTo(map);
-    })
-    .catch((error) => {
-      console.log(error);
+// Function to get IP address information
+async function getAddress(url) {
+  const response = await fetch(url);
+  const result = await response.json();
+  return result;
+};
+
+// Function to get the IP address location and display it on a map
+function getLocation(latitude, longitude) {
+  if (map !== undefined && map !== null) {
+    map.remove(); 
+  }
+
+  map = L.map('map').setView([latitude, longitude], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  const marker = L.marker([latitude, longitude]).addTo(map);
+}
+
+
+// Function to get IP address info and display it
+function getAndDisplayInfo() {
+  let ip_address = user_input.value;
+  let url = `https://ipapi.co/${ip_address}/json`;
+
+  getAddress(url)
+    .then((result) => {
+      // console.log(result);
+      
+      const ip_addr = result.ip;
+      const country = result.country_name;
+      const city = result.region;
+      const postal_code = result.postal || "";
+      const timezone = result.utc_offset;
+      const isp = result.org;
+      const latitude = result.latitude;
+      const longitude = result.longitude;
+
+      ip_address_display.innerHTML = ip_addr;
+      location_display.innerHTML = `${city}, ${country} ${postal_code}`;
+      timezone_display.innerHTML = `UTC ${timezone}`;
+      isp_display.innerHTML = isp;
+      user_input.value = ip_addr;
+
+      getLocation(latitude, longitude);
+
+    }).catch(status => {
+       alert("An error occurred! Input correct IPv4 or IPv5 address or check your internet connection."); // Runs on error  
     });
 };
 
-getdata();
+/* ========== END OF ABSTRACTION ============ */

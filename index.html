@@ -32,50 +32,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
-    <main class="ctn">
-      <header class="header">
-        <h2 class="heading">IP Address Tracker</h2>
-        <form class="search-box" action="javascript:void(0);" method="post">
-          <input
-            type="text"
-            id="myip"
-            class="ip-in"
-            placeholder="Search for any IP address or domain"
-          />
-          <button class="btn" onclick="getdata()">
-            <img src="images/icon-arrow.svg" alt="search" />
+    <main>
+      <!-- Search Section -->
+      <header>
+        <h1>IP Address Tracker</h1>
+  
+        <section class="form-group">
+          <input type="text" placeholder="Search for any IP address or domain" id="user-input" />
+          <button id="button">
+            <img src="images/icon-arrow.svg" alt="Arrow Icon">
           </button>
-        </form>
+        </section>
+  
+        <!-- Client Details Display Section -->
+  
+        <section>
+          <div>
+            <h2>IP ADDRESS</h2>
+            <p id="ip-address">192.212.174.101</p>
+          </div>
+          <div>
+            <h2>LOCATION</h2>
+            <p id="location">Brookyln, NY 10001</p>
+          </div>
+          <div>
+            <h2>TIMEZONE</h2>
+            <p id="timezone">UTC -05:00</p>
+          </div>
+          <div>
+            <h2>ISP</h2>
+            <p id="isp">SpaceX Starlink</p>
+          </div>
+        </section>
       </header>
-
-      <div class="container">
-        <div class="card">
-          <div class="card-container">
-            <p>IP ADDRESS</p>
-            <span id="ip" class="s-result"></span>
-          </div>
-
-          <div class="card-container">
-            <div class="border1">
-              <p>LOCATION</p>
-              <span id="loc" class="s-result"></span>
-            </div>
-          </div>
-
-          <div class="card-container">
-            <div class="border">
-              <p>TIMEZONE</p>
-              <b>UTC</b> <span id="tme" class="s-result"></span>
-            </div>
-          </div>
-
-          <div class="card-container">
-            <p>ISP</p>
-            <span id="isp" class="s-result"></span>
-          </div>
-        </div>
-      </div>
-      <div id="map"></div>
+  
+      <!-- Map Display Section -->
+      <section id="map" class="map-display"></section>
     </main>
     <div class="attribution">
       Challenge by
@@ -83,6 +75,7 @@
         >Frontend Mentor</a
       >. Coded by <a href="https://github.com/shagariboy">Nnamdi Ezeh</a>.
     </div>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <script src="script.js"></script>
   </body>
 </html>
