@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | IP Address Tracker</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+    ></script>
+    <link rel="stylesheet" href="/ip-address-tracker-master/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <main class="ctn">
+      <header class="header">
+        <h2 class="heading">IP Address Tracker</h2>
+        <form class="search-box" action="javascript:void(0);" method="post">
+          <input
+            type="text"
+            id="myip"
+            class="ip-in"
+            placeholder="Search for any IP address or domain"
+          />
+          <button class="btn" onclick="getdata()">
+            <img src="images/icon-arrow.svg" alt="search" />
+          </button>
+        </form>
+      </header>
+
+      <div class="container">
+        <div class="card">
+          <div class="card-container">
+            <p>IP ADDRESS</p>
+            <span id="ip" class="s-result"></span>
+          </div>
+
+          <div class="card-container">
+            <div class="border1">
+              <p>LOCATION</p>
+              <span id="loc" class="s-result"></span>
+            </div>
+          </div>
+
+          <div class="card-container">
+            <div class="border">
+              <p>TIMEZONE</p>
+              <b>UTC</b> <span id="tme" class="s-result"></span>
+            </div>
+          </div>
+
+          <div class="card-container">
+            <p>ISP</p>
+            <span id="isp" class="s-result"></span>
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+    </main>
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io/challenges/ip-address-tracker-I8-0yYAH0" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="https://github.com/shagariboy">Nnamdi Ezeh</a>.
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
